@@ -14,7 +14,7 @@ selector = input("Write a selector: ")
 
 
 env = gym.make(f"TwoArmedBandit-{version}")
-agent = TwoArmedBandit(0.1)
+agent = TwoArmedBandit(0.6)
 
 env.reset(options={'delay': 1})
 

@@ -44,8 +44,13 @@ class TwoArmedBandit():
         return np.argmax(self.values)
 
     def __epsilon_greedy(self):
+        """
+            Funcion que genera la politica epsilon
+            Si el valor por defecto es None, toma epsilon como 1 / (1 + actions)
+        """
+
         epsilon = self.epsilon or 1 / (1 + self.total_actions)
-        p = np.random.random()
+        p = np.random.random()  # valor de referencia para aplicar random o greedy
 
         if p < epsilon:
             return self.__random()
