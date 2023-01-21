@@ -11,7 +11,6 @@ agent = TwoArmedBandit(0.1)
 env.reset()
 
 for i in range(100):
-    # action = 0
     action = agent.get_action("random")
     _, reward, _, _, _, = env.step(action)
     agent.update(action, reward)
