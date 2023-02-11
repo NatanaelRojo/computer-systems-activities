@@ -3,7 +3,7 @@ from battery_maze import BatteryMaze
 from KruskalMazeGenerator import KruskalMazeGenerator
 
 
-env = BatteryMaze(rows=3, cols=3)
+env = BatteryMaze(rows=settings.ROWS, cols=settings.COLS)
 walls = env.walls
 
 
@@ -30,14 +30,8 @@ def set_transition(P, action, current_state, next_state, probability, reward, te
     wall_exists = check_wall_exists(current_state, next_state)
     if (wall_exists):
         opposite_action = get_opposite_action(action)
-        # print(current_state)
-        print(
-            f'{(probability, current_state, reward, terminated)} con la action {action}')
-        # print((probability, next_state, reward, False))
         P[current_state][action] = [
             (probability, current_state, reward, terminated)]
-        P[next_state][opposite_action] = [
-            (probability, next_state, reward, terminated)]
         return
     else:
         P[current_state][action] = [
@@ -63,15 +57,14 @@ def generate_P():
                     next_state = __get_current_state(
                         row, col + 1) if (col < settings.COLS - 1) else current_state
                 else:
-                    next_state = (row - 1, col) if (row > 0) else current_state
+                    next_state = __get_current_state(
+                        row - 1, col) if (row > 0) else current_state
                 reward = 1.0 if (
                     next_state == finish_state and current_state != finish_state) else 0.0
                 next_state = next_state if (
                     current_state != finish_state) else current_state
                 terminated = True if (next_state == finish_state) else False
-                probability = 1.0
-                # P[current_state][action].append(
-                # (probability, next_current_state, reward, terminated))
+                probability = 1
                 set_transition(P, action, current_state, next_state,
                                probability, reward, terminated)
 
@@ -81,6 +74,6 @@ def generate_P():
 P = generate_P()
 
 
-print(env.walls)
-for key, value in P.items():
-    print(f'{key}: {value}')
+# print(env.walls)
+# for key, value in P.items():
+# print(f'{key}: {value}')
