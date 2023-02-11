@@ -3,6 +3,8 @@ import time
 import gym_environments
 from agent import MonteCarlo
 
+gym.register("RobotMaze-v1", "battery_maze_env:RobotMazeEnv")
+
 
 def train(env, agent, episodes):
     for _ in range(episodes):
@@ -27,7 +29,7 @@ def play(env, agent):
 
 
 if __name__ == "__main__":
-    env = gym.make("RobotMaze-v0", render_mode="human")
+    env = gym.make("RobotMaze-v1", render_mode="human")
     agent = MonteCarlo(
         env.observation_space.n, env.action_space.n, gamma=0.9, epsilon=0.9
     )
