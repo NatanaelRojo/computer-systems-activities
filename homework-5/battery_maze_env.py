@@ -1,5 +1,6 @@
 import numpy as np
 import gym
+import settings
 from transition_build_helpers import generate_P
 
 
@@ -8,8 +9,8 @@ class RobotMazeEnv(gym.Env):
 
     def __init__(self, render_mode=None):
         super().__init__()
-        self.action_space = gym.spaces.Discrete(4)
-        self.observation_space = gym.spaces.Discrete(9)
+        self.action_space = gym.spaces.Discrete(settings.NUM_ACTIONS)
+        self.observation_space = gym.spaces.Discrete(settings.NUM_TILES)
         self.P = generate_P()
         self.reset()
 
