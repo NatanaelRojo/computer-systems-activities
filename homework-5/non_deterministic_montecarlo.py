@@ -1,9 +1,7 @@
 import numpy as np
 
-np.random.seed(123)
 
-
-class MonteCarlo:
+class NonDeterministicMonteCarlo:
     def __init__(self, states_n, actions_n, gamma, epsilon):
         self.states_n = states_n
         self.actions_n = actions_n
@@ -65,9 +63,10 @@ class MonteCarlo:
                     self.pi[state][action] = self.epsilon / self.actions_n
 
     def get_action(self, state):
+        # return np.random.choice(self.actions_n, p=self.pi[state])
+        # return np.argmax(self.q[state])
+        # return np.argmax(self.q[state])
         return np.random.choice(self.actions_n, p=self.pi[state])
-        # return np.argmax(self.q[state])
-        # return np.argmax(self.q[state])
 
     def get_best_action(self, state):
         return np.argmax(self.q[state])

@@ -62,5 +62,5 @@ def generate_P():
 P = generate_P()
 
 
-for key, value in P.items():
-    print(f'{key}: {value}')
+# for key, value in P.items():
+# print(f'{key}: {value}')

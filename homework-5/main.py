@@ -2,6 +2,9 @@ import gym
 import time
 import gym_environments
 from agent import MonteCarlo
+from non_deterministic_montecarlo import NonDeterministicMonteCarlo
+from deterministic_montecarlo import DeterministicMonteCarlo
+
 
 gym.register("RobotMaze-v1", "battery_maze_env:RobotMazeEnv")
 
@@ -30,11 +33,11 @@ def play(env, agent):
 
 if __name__ == "__main__":
     env = gym.make("RobotMaze-v1", render_mode="human")
-    agent = MonteCarlo(
+    agent = NonDeterministicMonteCarlo(
         env.observation_space.n, env.action_space.n, gamma=0.9, epsilon=0.9
     )
 
-    train(env, agent, episodes=100)
+    train(env, agent, episodes=500)
     agent.render()
 
     play(env, agent)
