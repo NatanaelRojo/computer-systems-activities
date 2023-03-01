@@ -55,7 +55,6 @@ if __name__ == "__main__":
     agent = DoubleQLearning(
         env.observation_space.n, env.action_space.n, alpha=0.1, gamma=0.9, epsilon=0.1
     )
-
     rewards = train(env, agent, episodes)
     agent.render()
     env.close()
