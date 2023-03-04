@@ -17,9 +17,9 @@ class KruskalMazeGenerator(MazeGenerator):
             (0, -1), (1, 0), (0, 1), (-1, 0)],
     ) -> None:
         super().__init__(num_rows, num_cols, neighborhood)
-        self.entrance_index = self.__compute_index(
+        self.entrance_index = self.compute_index(
             *(random.randint(0, self.num_cols - 1), 0))
-        self.exit_index = self.__compute_index(
+        self.exit_index = self.compute_index(
             *(random.randint(0, self.num_cols - 1), self.num_rows - 1))
         self.path = []
         self.holes = []
@@ -27,12 +27,12 @@ class KruskalMazeGenerator(MazeGenerator):
     def _init_walls(self) -> None:
         for i in range(self.num_rows):
             for j in range(self.num_cols):
-                current_index = self.__compute_index(j, i)
+                current_index = self.compute_index(j, i)
                 for offset_i, offset_j in self.neighborhood:
                     n_i, n_j = i + offset_i, j + offset_j
                     if not ((0 <= n_i < self.num_rows) and (0 <= n_j < self.num_cols)):
                         continue
-                    neighbor_index = self.__compute_index(n_j, n_i)
+                    neighbor_index = self.compute_index(n_j, n_i)
                     if (current_index, neighbor_index) in self.walls or (
                         neighbor_index,
                         current_index,
@@ -58,33 +58,28 @@ class KruskalMazeGenerator(MazeGenerator):
         has_down_wall_opposite = True if (self.entrance_index + self.num_cols,
                                           self.entrance_index) in self.walls else False
 
-        if has_down_wall:
-            self.walls.remove(
-                (self.entrance_index, self.entrance_index + self.num_cols))
-        elif has_down_wall_opposite:
-            self.walls.remove(
-                (self.entrance_index + self.num_cols, self.entrance_index))
+        # if has_down_wall:
+        # self.walls.remove(
+        # (self.entrance_index, self.entrance_index + self.num_cols))
+        # elif has_down_wall_opposite:
+        # self.walls.remove(
+        # (self.entrance_index + self.num_cols, self.entrance_index))
 
         has_up_wall = True if (self.exit_index, self.exit_index -
                                self.num_cols) in self.walls else False
         has_up_wall_opposite = True if (self.exit_index - self.num_cols,
                                         self.exit_index) in self.walls else False
 
-        # self.walls.remove((self.entrance_index, self.entrance_index + self.num_cols)) if ((self.entrance_index, self.entrance_index +
-        # self.num_cols) in self.walls) else self.walls.remove(self.entrance_index + self.num_cols, self.entrance_index)
-        # self.walls.remove((self.exit_index, self.exit_index - self.num_cols)) if ((self.exit_index, self.exit_index -
-        # self.num_cols) in self.walls) else self.walls.remove(self.exit_index - self.num_cols, self.exit_index)
+        # if has_up_wall:
+        # self.walls.remove(
+        # (self.exit_index, self.exit_index - self.num_cols))
+        # elif has_up_wall_opposite:
+        # self.walls.remove(
+        # (self.exit_index - self.num_cols, self.exit_index))
 
-        if has_up_wall:
-            self.walls.remove(
-                (self.exit_index, self.exit_index - self.num_cols))
-        elif has_up_wall_opposite:
-            self.walls.remove(
-                (self.exit_index - self.num_cols, self.exit_index))
-
-        # self.walls = self.__get_walls()
         self.path = self.__find_path(self.entrance_index, self.exit_index)
         self.holes = self.__generate_holes()
+        self.walls = self.__get_walls()
         return self.walls
 
     def __get_walls(self):
@@ -151,23 +146,23 @@ class KruskalMazeGenerator(MazeGenerator):
             # finally, end of line
             print("")
 
-    def __compute_index(self, x, y):
+    def compute_index(self, x, y):
         return y * self.num_cols + x
 
-    def __compute_coordinates(self, index):
+    def compute_coordinates(self, index):
         y = index // self.num_cols
         x = index % self.num_cols
         return x, y
 
     def __get_neighbors(self, index):
-        j, i = self.__compute_coordinates(index)
+        j, i = self.compute_coordinates(index)
         neighbors = []
         for offset_i, offset_j in self.neighborhood:
             n_i, n_j = i + offset_i, j + offset_j
             if not ((0 <= n_i < self.num_rows) and (0 <= n_j < self.num_cols)):
                 continue
 
-            neighbor_index = self.__compute_index(n_j, n_i)
+            neighbor_index = self.compute_index(n_j, n_i)
             if (self.__wall_exists_between(index, neighbor_index)):
                 # if not ((0 <= n_i < self.num_rows) and (0 <= n_j < self.num_cols)) and (self.__wall_exists_betwen(current)):
                 continue
@@ -238,11 +233,3 @@ class KruskalMazeGenerator(MazeGenerator):
             else:
                 parent[root_j] = root_i
                 rank[root_i] += 1
-
-
-m = KruskalMazeGenerator(8, 8)
-m.generate()
-m.render()
-print(m.walls)
-print(m.path)
-print(m.holes)

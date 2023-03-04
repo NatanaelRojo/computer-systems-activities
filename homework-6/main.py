@@ -4,10 +4,9 @@ import gym_environments
 # from agent import MonteCarlo
 from non_deterministic_montecarlo import NonDeterministicMonteCarlo
 from deterministic_montecarlo import DeterministicMonteCarlo
-from mcd import MonteCarloES
 
 
-gym.register("RobotMaze-v1", "battery_maze_env:RobotMazeEnv")
+gym.register("FrozenLake-v3", "battery_maze_env:RobotMazeEnv")
 
 
 def train(env, agent, episodes):
@@ -33,15 +32,22 @@ def play(env, agent):
 
 
 if __name__ == "__main__":
-    env = gym.make("RobotMaze-v1", render_mode="human")
+    env = gym.make("FrozenLake-v3")
     # epsilon=0.9
-    agent = MonteCarloES(
-        env.observation_space.n, env.action_space.n, gamma=0.9
+    agent = NonDeterministicMonteCarlo(
+        env.observation_space.n, env.action_space.n, gamma=0.9, epsilon=0.9
     )
 
-    train(env, agent, episodes=1)
-    agent.render()
+    train(env, agent, episodes=20000)
+    # agent.render()
+    env.init_render_mode("human")
 
     play(env, agent)
 
     env.close()
+    # print("Entrada: ", env.maze.entrance_index)
+    # print("Salida: ", env.maze.exit_index)
+    # print("Paredes", env.maze.walls)
+    # print("Huecos", env.maze.holes)
+    # print("Camino", env.maze.path)
+    # print(env.P)
