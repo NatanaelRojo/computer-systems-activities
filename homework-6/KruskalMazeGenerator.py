@@ -53,30 +53,6 @@ class KruskalMazeGenerator(MazeGenerator):
                 self.__union(i, j, parent, rank)
                 self.walls.remove((i, j))
 
-        has_down_wall = True if (self.entrance_index, self.entrance_index +
-                                 self.num_cols) in self.walls else False
-        has_down_wall_opposite = True if (self.entrance_index + self.num_cols,
-                                          self.entrance_index) in self.walls else False
-
-        # if has_down_wall:
-        # self.walls.remove(
-        # (self.entrance_index, self.entrance_index + self.num_cols))
-        # elif has_down_wall_opposite:
-        # self.walls.remove(
-        # (self.entrance_index + self.num_cols, self.entrance_index))
-
-        has_up_wall = True if (self.exit_index, self.exit_index -
-                               self.num_cols) in self.walls else False
-        has_up_wall_opposite = True if (self.exit_index - self.num_cols,
-                                        self.exit_index) in self.walls else False
-
-        # if has_up_wall:
-        # self.walls.remove(
-        # (self.exit_index, self.exit_index - self.num_cols))
-        # elif has_up_wall_opposite:
-        # self.walls.remove(
-        # (self.exit_index - self.num_cols, self.exit_index))
-
         self.path = self.__find_path(self.entrance_index, self.exit_index)
         self.holes = self.__generate_holes()
         self.walls = self.__get_walls()
@@ -147,7 +123,7 @@ class KruskalMazeGenerator(MazeGenerator):
             print("")
 
     def compute_index(self, x, y):
-        return y * self.num_cols + x
+        return self.num_cols * y + x
 
     def compute_coordinates(self, index):
         y = index // self.num_cols
@@ -202,7 +178,7 @@ class KruskalMazeGenerator(MazeGenerator):
         return path
 
     def __generate_holes(self):
-        holes_number = int(self.num_cols * self.num_rows * 0.33)
+        holes_number = int(self.num_cols * self.num_rows * 0.40)
         holes = []
 
         while holes_number > 0:
