@@ -6,8 +6,8 @@ import pygame
 TILE_SIZE = 32
 
 # Grid
-ROWS = 7
-COLS = 7
+ROWS = 3
+COLS = 3
 
 NUM_TILES = ROWS * COLS
 NUM_ACTIONS = 4

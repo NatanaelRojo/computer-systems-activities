@@ -1,7 +1,5 @@
 import numpy as np
 
-np.random.seed(123)
-
 
 class MonteCarlo:
     def __init__(self, states_n, actions_n, gamma, epsilon):
@@ -52,8 +50,7 @@ class MonteCarlo:
 
     def _update_pi(self):
         states = []
-        [states.append(state)
-         for state, _, _ in self.episode if state not in states]
+        [states.append(state) for state, _, _ in self.episode if state not in states]
         for state in states:
             best_action = np.argmax(self.q[state])
             for action in range(self.actions_n):
@@ -66,11 +63,13 @@ class MonteCarlo:
 
     def get_action(self, state):
         return np.random.choice(self.actions_n, p=self.pi[state])
-        # return np.argmax(self.q[state])
-        # return np.argmax(self.q[state])
 
     def get_best_action(self, state):
         return np.argmax(self.q[state])
 
     def render(self):
         print(f"Values: {self.q}\nPolicy: {self.pi}")
+
+
+#    def get_action(self, state):
+ #       return random.randint(0, self.actions_n - 1)
