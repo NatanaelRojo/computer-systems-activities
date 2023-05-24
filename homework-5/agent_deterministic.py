@@ -33,11 +33,11 @@ class DeterministicMonteCarlo:
                     self.pi[s] = np.argmax(self.q[s])
             self.episode = []
 
-    def get_action(self, state):
-        if random.random() < self.epsilon:
-            return random.randint(0, self.actions_n - 1)
-        else:
-            return self.pi[state]
+    #def get_action(self, state):
+        #if random.random() < self.epsilon:
+            #return random.randint(0, self.actions_n - 1)
+        #else:
+            #return self.pi[state]
         
     def get_best_action(self, state):
         return np.argmax(self.q[state])

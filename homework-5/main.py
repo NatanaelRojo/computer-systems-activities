@@ -27,7 +27,8 @@ def play(env, agent):
     observation, _ = env.reset()
     terminated, truncated = False, False
     while not (terminated or truncated):
-        action = agent.get_best_action(observation)
+        #action = agent.get_best_action(observation)
+        action = agent.get_action(observation)
         observation, _, terminated, truncated, _ = env.step(action)
         env.render()
         time.sleep(1)
